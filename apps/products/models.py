@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 
 
 class Category(models.Model):
@@ -8,11 +9,16 @@ class Category(models.Model):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
+    def __str__(self) -> str:
+        return f"Категория {self.id}"
+
 
 class Product(models.Model):
     """Модель Продукта."""
 
-    article = models.CharField(verbose_name="Артикул", max_length=255)
+    article = models.CharField(
+        verbose_name="Артикул", max_length=255, unique=True
+    )
     name_1c = models.CharField(
         verbose_name="Название 1с", max_length=255, blank=True
     )
@@ -28,6 +34,7 @@ class Product(models.Model):
         decimal_places=2,
         blank=True,
         null=True,
+        validators=[MinValueValidator(0)],
     )
     recommended_price = models.DecimalField(
         verbose_name="Себестоимость",
@@ -35,6 +42,7 @@ class Product(models.Model):
         decimal_places=2,
         blank=True,
         null=True,
+        validators=[MinValueValidator(0)],
     )
     category = models.ForeignKey(
         Category,
