@@ -27,3 +27,24 @@ pre-commit = "^3.5.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+target-version = ['py311']
+exclude = 'migrations'
+line_length = 79
+
+[tool.isort]
+line_length = 79
+skip = ['migrations', 'settings']
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+
+[tool.ruff]
+target-version = "py311"
+exclude = [
+    "*migrations/",
+    "settings.py",
+]
+line-length = 79
