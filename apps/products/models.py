@@ -14,12 +14,14 @@ class Product(models.Model):
 
     article = models.CharField(verbose_name="Артикул", max_length=255)
     name_1c = models.CharField(
-        verbose_name="Название 1с", max_length=255, null=True
+        verbose_name="Название 1с", max_length=255, blank=True
     )
     ean_13 = models.CharField(
-        verbose_name="Код ean_13", max_length=20, null=True
+        verbose_name="Код ean_13", max_length=20, blank=True
     )
-    name = models.CharField(verbose_name="Название", max_length=255, null=True)
+    name = models.CharField(
+        verbose_name="Название", max_length=255, blank=True
+    )
     cost = models.DecimalField(
         verbose_name="Себестоимость",
         max_digits=7,

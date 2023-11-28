@@ -31,7 +31,7 @@ class DealerKey(models.Model):
         null=True,
     )
     is_provided = models.BooleanField(
-        verbose_name="Флаг наличия в исходном файле csv", default=False
+        verbose_name="Есть в исходном csv", default=False
     )
 
     class Meta:
