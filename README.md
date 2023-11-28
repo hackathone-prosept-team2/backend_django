@@ -20,7 +20,7 @@ cd backend_django/deploy/
 
 Запустить сборку контейнеров
 ```
-docker compose up  -d --build
+docker-compose up -d --build
 ```
 
 После запуска контейнеров: добавить миграции в базу, собрать статику для документации
