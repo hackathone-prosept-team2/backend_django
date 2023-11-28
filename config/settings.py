@@ -24,15 +24,16 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    # "rest_framework",
-    # "rest_framework_simplejwt",
+    "rest_framework",
+    "rest_framework_simplejwt",
     # "djoser",
-    # "drf_spectacular",
+    "drf_spectacular",
     # "corsheaders",
 ]
 
 LOCAL_APPS = [
     "apps.users.apps.UsersConfig",
+    "apps.products.apps.ProductsConfig",
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
