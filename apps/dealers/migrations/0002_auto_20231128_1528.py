@@ -23,6 +23,7 @@ def create_dealer_keys(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ("dealers", "0001_initial"),
+        ("products", "0004_auto_20231128_1508"),
     ]
 
     operations = [
