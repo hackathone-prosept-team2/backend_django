@@ -7,7 +7,10 @@ class DealerPrice(models.Model):
     """Модель Цена Дилера."""
 
     key = models.ForeignKey(
-        DealerKey, on_delete=models.CASCADE, verbose_name="Ключ дилера"
+        DealerKey,
+        on_delete=models.CASCADE,
+        verbose_name="Ключ дилера",
+        related_name="prices",
     )
     price = models.DecimalField(
         verbose_name="Цена",
@@ -19,3 +22,10 @@ class DealerPrice(models.Model):
     product_url = models.URLField(
         verbose_name="Ссылка на сайт дилера", max_length=255
     )
+
+    class Meta:
+        verbose_name = "Цена дилера"
+        verbose_name_plural = "Цены дилеров"
+
+    def __str__(self) -> str:
+        return f"ID{self.id}. {self.date} {self.name}. Ключ: {self.key}"
