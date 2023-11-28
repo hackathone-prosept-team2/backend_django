@@ -1,0 +1,48 @@
+version: '3.3'
+
+services:
+  db:
+    container_name: prosept_db
+    image: postgres:13.0-alpine
+    volumes:
+      - db_value:/var/lib/postgresql/data/
+    env_file:
+      - ../.env
+
+  backend:
+    container_name: prosept_back
+    build: ../.
+    # image: ratarov/prosept_back:latest
+    restart: always
+    volumes:
+      - static_data:/app/static/
+    depends_on:
+      - db
+    env_file:
+      - ../.env
+
+  # frontend:
+  #   image: ratarov/prosept_front:latest
+  #   container_name: prosept_front
+  #   volumes:
+  #     - ../frontend/:/app/result_build/
+  #   depends_on:
+  #     - backend
+
+  nginx:
+    image: nginx:1.21.3-alpine
+    container_name: prosept_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ../frontend/dist:/usr/share/nginx/html/
+      - static_data:/var/html/static/
+    depends_on:
+      - backend
+      # - frontend
+    restart: always
+
+volumes:
+  db_value:
+  static_data:
