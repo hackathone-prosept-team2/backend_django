@@ -37,7 +37,7 @@ class Product(models.Model):
         validators=[MinValueValidator(0)],
     )
     recommended_price = models.DecimalField(
-        verbose_name="Себестоимость",
+        verbose_name="Рекомендованная цена",
         max_digits=7,
         decimal_places=2,
         blank=True,
