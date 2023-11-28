@@ -69,8 +69,6 @@ TEMPLATES = [
         },
     },
 ]
-LOGIN_URL = "users:login"
-LOGIN_REDIRECT_URL = "quizzes:index"
 
 WSGI_APPLICATION = "config.wsgi.application"
 
@@ -125,5 +123,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
 AUTH_USER_MODEL = "users.CustomUser"
+
+# Other settings
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "API для сервиса сопоставления артикулов Просепт. Команда 2",
+    "DESCRIPTION": "Проект разработан в рамках Яндекс-Хакатона: Просепт",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SCHEMA_PATH_PREFIX": "/api/v1/",
+    "SWAGGER_UI_DIST": "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.9.3",
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
