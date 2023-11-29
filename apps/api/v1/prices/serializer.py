@@ -2,33 +2,24 @@ from rest_framework import serializers
 
 from apps.prices.models import DealerPrice
 
-from ..dealers.serializer import KeySerializer
 from ..products.serializer import ProductShortSerializer
 
 
 class BasePriceSerializer(serializers.ModelSerializer):
-    key = KeySerializer()
-    product = ProductShortSerializer(source="key.product")
-    status = serializers.SerializerMethodField()
+    """Базовый сериализатор для полей цен дилеров."""
 
     class Meta:
         model = DealerPrice
         fields = (
             "id",
-            "key",
             "price",
             "name",
             "date",
             "product_url",
-            "product",
-            "status",
         )
 
-    def get_status(self, obj):
-        return "Тут будет какой-то статус"
 
-
-class PriceListSerializer(BasePriceSerializer):
+class KeyPriceSerializer(BasePriceSerializer):
     """Сериализатор для полей списка цен."""
 
     pass

@@ -24,6 +24,7 @@ class DealerPrice(models.Model):
     )
 
     class Meta:
+        ordering = ("-date",)
         verbose_name = "Цена дилера"
         verbose_name_plural = "Цены дилеров"
 
