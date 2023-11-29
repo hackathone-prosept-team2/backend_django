@@ -38,6 +38,11 @@ class DealerKey(models.Model):
         verbose_name = "Ключ дилера"
         verbose_name_plural = "Ключи дилера"
         default_related_name = "dealer_keys"
+        constraints = (
+            models.UniqueConstraint(
+                fields=("dealer_id", "key"), name="unique_pair_dealer_and_key"
+            ),
+        )
 
     def __str__(self) -> str:
         return f"ID{self.id}. Dealer {self.dealer_id}: {self.key}"
