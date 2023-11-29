@@ -60,9 +60,10 @@ def get_prices_datasets() -> list[DealerPrice]:
             )
             if dealer_key not in keys_in_db_set:
                 new_keys.append(
-                    DealerKey(key=dealer_key, dealer=row["dealer_id"])
+                    DealerKey(key=dealer_key, dealer_id=row["dealer_id"])
                 )
         bulk_create_keys(new_keys)
+        reader = csv.DictReader(file, delimiter=";")
         keys_in_db_set = get_keys_values()
         new_prices = []
         for row in reader:
