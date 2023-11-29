@@ -3,7 +3,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from apps.products.crud import list_products
 
-from ..pagination import CustomPagePagination
+from ..pagination import CommonPagePagination
 from . import schema
 from . import serializer as ser
 
@@ -13,7 +13,7 @@ class ProductViewset(ReadOnlyModelViewSet):
     """Продукты компании Просепт."""
 
     queryset = list_products()
-    pagination_class = CustomPagePagination
+    pagination_class = CommonPagePagination
 
     def get_serializer_class(self):
         if self.action == "list":
