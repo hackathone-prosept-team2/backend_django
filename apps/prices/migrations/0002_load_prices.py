@@ -14,6 +14,7 @@ def create_prices(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
+        ("prices", "0001_initial"),
         ("dealers", "0003_dealerkey_unique_pair_dealer_and_key"),
     ]
 

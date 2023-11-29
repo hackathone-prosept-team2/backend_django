@@ -18,7 +18,18 @@ class KeySerializer(serializers.ModelSerializer):
 
     dealer = DealerSerializer()
     product = ProductShortSerializer()
+    name = serializers.CharField()
+    last_price = serializers.DecimalField(max_digits=7, decimal_places=2)
+    status = serializers.CharField()
 
     class Meta:
         model = DealerKey
-        fields = ("id", "key", "dealer", "product")
+        fields = (
+            "id",
+            "key",
+            "name",
+            "last_price",
+            "status",
+            "dealer",
+            "product",
+        )

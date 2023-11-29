@@ -9,6 +9,7 @@ class Dealer(models.Model):
     name = models.CharField(verbose_name="Наименование дилера", max_length=50)
 
     class Meta:
+        ordering = ("id",)
         verbose_name = "Дилер"
         verbose_name_plural = "Дилеры"
 
@@ -35,6 +36,7 @@ class DealerKey(models.Model):
     )
 
     class Meta:
+        ordering = ("id",)
         verbose_name = "Ключ дилера"
         verbose_name_plural = "Ключи дилера"
         default_related_name = "dealer_keys"

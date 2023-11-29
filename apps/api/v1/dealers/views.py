@@ -3,7 +3,8 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from apps.dealers.crud import list_dealers, list_keys
 
-from ..pagination import CustomPagePagination
+from ..pagination import CommonPagePagination
+from .filters import DealerKeyFilter
 from . import schema
 from . import serializer as ser
 
@@ -22,4 +23,5 @@ class DealerKeyViewset(ReadOnlyModelViewSet):
 
     queryset = list_keys()
     serializer_class = ser.KeySerializer
-    pagination_class = CustomPagePagination
+    pagination_class = CommonPagePagination
+    filterset_class = DealerKeyFilter
