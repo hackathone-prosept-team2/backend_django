@@ -13,8 +13,7 @@ def list_dealers() -> QuerySet[Dealer]:
 def list_keys() -> QuerySet[DealerKey]:
     """Получение списка ключей/артикулов дилеров."""
     return (
-        DealerKey.objects.select_related("dealer", "product")
-        .annotate(
+        DealerKey.objects.select_related("dealer", "product").annotate(
             name=Subquery(
                 DealerPrice.objects.filter(key__pk=OuterRef("pk")).values(
                     "name"
@@ -30,6 +29,7 @@ def list_keys() -> QuerySet[DealerKey]:
                 default=Value("число рекомендаций"),
             ),
         )
+        # фильтр позволяет выгружать только ключи, которые есть в списке цен
         .filter(name__isnull=False)
     )
 
