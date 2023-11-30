@@ -2,14 +2,15 @@
 
 from django.db import migrations, models
 
-from apps.services.fixtures import get_prices_datasets
+from apps.services.fixtures_parser import get_prices_datasets
 
 
 def create_prices(apps, schema_editor):
     DealerPrice: models.Model = apps.get_model("prices", "DealerPrice")
-    DealerPrice.objects.bulk_create(
-        get_prices_datasets(), ignore_conflicts=True
-    )
+    prices_datasets = get_prices_datasets()
+    if prices_datasets:
+        prices = [DealerPrice(**fields) for fields in prices_datasets]
+        DealerPrice.objects.bulk_create(prices, ignore_conflicts=True)
 
 
 class Migration(migrations.Migration):

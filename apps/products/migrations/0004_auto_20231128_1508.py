@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 
-from apps.services.fixtures import get_products_datasets
+from apps.services.fixtures_parser import get_products_datasets
 
 
 def create_categories(apps, schema_editor):
@@ -13,7 +13,10 @@ def create_categories(apps, schema_editor):
 
 def create_products(apps, schema_editor):
     Product: models.Model = apps.get_model("products", "Product")
-    Product.objects.bulk_create(get_products_datasets(), ignore_conflicts=True)
+    products_datasets = get_products_datasets()
+    if products_datasets:
+        products = [Product(**fields) for fields in products_datasets]
+        Product.objects.bulk_create(products, ignore_conflicts=True)
 
 
 class Migration(migrations.Migration):

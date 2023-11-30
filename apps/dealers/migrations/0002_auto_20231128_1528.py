@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 
-from apps.services.fixtures import (
+from apps.services.fixtures_parser import (
     get_dealers_datasets,
     get_dealers_keys_datasets,
 )
@@ -10,14 +10,18 @@ from apps.services.fixtures import (
 
 def create_dealers(apps, schema_editor):
     Dealer: models.Model = apps.get_model("dealers", "Dealer")
-    Dealer.objects.bulk_create(get_dealers_datasets(), ignore_conflicts=True)
+    dealers_datasets = get_dealers_datasets()
+    if dealers_datasets:
+        dealers = [Dealer(**fields) for fields in dealers_datasets]
+        Dealer.objects.bulk_create(dealers, ignore_conflicts=True)
 
 
 def create_dealer_keys(apps, schema_editor):
     DealerKey: models.Model = apps.get_model("dealers", "DealerKey")
-    DealerKey.objects.bulk_create(
-        get_dealers_keys_datasets(), ignore_conflicts=True
-    )
+    keys_datasets = get_dealers_keys_datasets()
+    if keys_datasets:
+        dealers_keys = [DealerKey(**fields) for fields in keys_datasets]
+        DealerKey.objects.bulk_create(dealers_keys, ignore_conflicts=True)
 
 
 class Migration(migrations.Migration):
