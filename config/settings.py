@@ -146,3 +146,19 @@ REST_FRAMEWORK = {
     "DATE_INPUT_FORMATS": ["%d.%m.%Y"],
     "DATE_FORMAT": "%d.%m.%Y",
 }
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django.db.backends": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+        }
+    },
+}

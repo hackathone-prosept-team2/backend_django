@@ -26,6 +26,7 @@ def list_keys() -> QuerySet[DealerKey]:
             ),
             status=Case(
                 When(product__isnull=False, then=Value("-")),
+                # TODO код для расчета статуса по рекомендациям
                 default=Value("число рекомендаций"),
             ),
         )
