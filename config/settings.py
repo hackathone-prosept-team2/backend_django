@@ -26,8 +26,9 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "rest_framework",
-    "rest_framework_simplejwt",
-    # "djoser",
+    # "rest_framework_simplejwt",
+    'rest_framework.authtoken',
+    "djoser",
     "drf_spectacular",
     "corsheaders",
 ]
@@ -74,7 +75,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-
 # Database
 
 DATABASES = {
@@ -83,11 +83,10 @@ DATABASES = {
         "NAME": os.getenv("POSTGRES_NAME", default="postgres"),
         "USER": os.getenv("POSTGRES_USER", default="postgres"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", default="postgres"),
-        "HOST": os.getenv("POSTGRES_HOST", default="db"),
+        "HOST": os.getenv("POSTGRES_HOST", default="localhost"),
         "PORT": os.getenv("POSTGRES_PORT", default=5432),
     }
 }
-
 
 # Password validation
 
@@ -145,4 +144,21 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DATE_INPUT_FORMATS": ["%d.%m.%Y"],
     "DATE_FORMAT": "%d.%m.%Y",
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
+
+DJOSER = {
+    'HIDE_USERS': False,
+    'PERMISSIONS': {
+        'user_list': ['rest_framework.permissions.AllowAny', ],
+        'user': ['rest_framework.permissions.IsAuthenticated', ],
+
+    },
+    'SERIALIZERS': {
+        'user_create': 'apps.users.serializers.CreateUserSerializer',
+        'user': 'apps.users.serializers.UserListSerializer',
+        'current_user': 'apps.users.serializers.UserListSerializer',
+    },
 }
