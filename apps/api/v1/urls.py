@@ -16,4 +16,6 @@ router.register("keys", DealerKeyViewset, "keys")
 urlpatterns = [
     path("keys/<int:pk>/prices", KeyPriceViewset.as_view(), name="key_prices"),
     path("", include(router.urls)),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
 ]
