@@ -1,9 +1,9 @@
 from django.db.models import QuerySet
+from django.shortcuts import get_object_or_404
 
 from apps.dealers.models import DealerKey
 
 from .models import DealerPrice
-from django.shortcuts import get_object_or_404
 
 
 def list_key_prices(key_pk: int) -> QuerySet[DealerPrice]:

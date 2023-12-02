@@ -40,7 +40,7 @@ jobs:
           script: |
             cd prosept_app/deploy/
 
-            sudo docker-compose stop
+            sudo docker-compose down
             sudo docker rm prosept_back
             sudo docker rm prosept_nginx
             sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/prosept_back
