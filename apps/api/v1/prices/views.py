@@ -1,7 +1,5 @@
-from django.shortcuts import get_object_or_404
 from rest_framework.generics import ListAPIView
 
-from apps.dealers.models import DealerKey
 from apps.prices.crud import list_key_prices
 
 from ..pagination import NestedPagePagination
@@ -16,5 +14,4 @@ class KeyPriceViewset(ListAPIView):
 
     def get_queryset(self):
         key_pk = self.kwargs.get("pk")
-        dealer_key = get_object_or_404(DealerKey, pk=key_pk)
-        return list_key_prices(dealer_key=dealer_key)
+        return list_key_prices(key_pk=key_pk)
