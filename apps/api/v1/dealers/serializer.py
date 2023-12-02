@@ -5,12 +5,44 @@ from apps.dealers.models import Dealer, DealerKey
 from ..products.serializer import ProductShortSerializer
 
 
-class DealerSerializer(serializers.ModelSerializer):
-    """Сериализатор для полей модели Дилер."""
+class BaseDealerSerializer(serializers.ModelSerializer):
+    """Базовый сериализатор для полей модели Дилер."""
 
     class Meta:
         model = Dealer
         fields = ("id", "name")
+
+
+class DealerSerializer(BaseDealerSerializer):
+    """Сериализатор полей для списка Дилеров."""
+
+    pass
+
+
+class DealerReportSerializer(BaseDealerSerializer):
+    """Сериализатор полей для отчета по Дилерам."""
+
+    total_prices = serializers.IntegerField()
+    total_keys = serializers.IntegerField()
+    keys_with_product = serializers.IntegerField()
+    keys_without_product = serializers.SerializerMethodField()
+    confirmed_matches = serializers.IntegerField()
+    to_be_checked = serializers.IntegerField()
+    no_matches = serializers.IntegerField()
+
+    class Meta(BaseDealerSerializer.Meta):
+        fields = BaseDealerSerializer.Meta.fields + (
+            "total_prices",
+            "total_keys",
+            "keys_with_product",
+            "keys_without_product",
+            "confirmed_matches",
+            "to_be_checked",
+            "no_matches",
+        )
+
+    def get_keys_without_product(self, obj):
+        return obj.total_keys - obj.keys_with_product
 
 
 class KeySerializer(serializers.ModelSerializer):
