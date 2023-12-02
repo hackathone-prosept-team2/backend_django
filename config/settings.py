@@ -26,7 +26,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "rest_framework",
-    'rest_framework.authtoken',
+    "rest_framework.authtoken",
     # "rest_framework_simplejwt",
     "djoser",
     "drf_spectacular",
@@ -146,21 +146,25 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DATE_INPUT_FORMATS": ["%d.%m.%Y"],
     "DATE_FORMAT": "%d.%m.%Y",
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication')
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
 }
 
 DJOSER = {
-    'HIDE_USERS': False,
-    'PERMISSIONS': {
-        'user_list': ['rest_framework.permissions.AllowAny', ],
-        'user': ['rest_framework.permissions.IsAuthenticated', ],
-
+    "HIDE_USERS": False,
+    "PERMISSIONS": {
+        "user_list": [
+            "rest_framework.permissions.AllowAny",
+        ],
+        "user": [
+            "rest_framework.permissions.IsAuthenticated",
+        ],
     },
-    'SERIALIZERS': {
-        'user_create': 'apps.users.serializers.CreateUserSerializer',
-        'user': 'apps.users.serializers.UserListSerializer',
-        'current_user': 'apps.users.serializers.UserListSerializer',
+    "SERIALIZERS": {
+        "user_create": "apps.api.v1.users.serializers.CreateUserSerializer",
+        "user": "apps.api.v1.users.serializers.UserListSerializer",
+        "current_user": "apps.api.v1.users.serializers.UserListSerializer",
     },
 }
 
