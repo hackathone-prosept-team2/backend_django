@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.dealers.models import Dealer, DealerKey
+from apps.dealers.models import Dealer, DealerKey, Match
 
 from ..products.serializer import ProductShortSerializer
 
@@ -33,3 +33,11 @@ class KeySerializer(serializers.ModelSerializer):
             "dealer",
             "product",
         )
+
+
+class MatchSerializer(serializers.ModelSerializer):
+    product = ProductShortSerializer()
+
+    class Meta:
+        model = Match
+        fields = ("id", "product", "metrics", "status")
