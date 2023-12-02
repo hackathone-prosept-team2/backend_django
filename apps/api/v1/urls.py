@@ -6,6 +6,7 @@ from .dealers.views import (
     DealerKeyViewset,
     MatchView,
     DeclineMatchesView,
+    DealersReport
 )
 from .prices.views import KeyPriceViewset
 from .products.views import ProductViewset
@@ -20,6 +21,7 @@ router.register("keys", DealerKeyViewset, "keys")
 router.register("auth/users", UserViewset, "users")
 
 urlpatterns = [
+    path("dealers/report/", DealersReport.as_view(), name="dealers_report"),
     path(
         "keys/<int:pk>/prices/", KeyPriceViewset.as_view(), name="key_prices"
     ),

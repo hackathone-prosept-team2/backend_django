@@ -1,10 +1,11 @@
 from drf_spectacular.utils import extend_schema_view
+
 from rest_framework import views, status
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from apps.dealers.crud import list_dealers, list_keys, list_matches
+from apps.dealers.crud import list_dealers, list_keys, list_matches, list_dealers_report_data
 from apps.dealers.services import decline_matches
 
 from ..pagination import CommonPagePagination
@@ -19,6 +20,13 @@ class DealerViewset(ReadOnlyModelViewSet):
 
     queryset = list_dealers()
     serializer_class = ser.DealerSerializer
+
+
+class DealersReport(ListAPIView):
+    """Отчет по дилерам Просепт."""
+
+    queryset = list_dealers_report_data()
+    serializer_class = ser.DealerReportSerializer
 
 
 @extend_schema_view(**schema.key_schema)
