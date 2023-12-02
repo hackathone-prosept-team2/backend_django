@@ -21,13 +21,15 @@ services:
     env_file:
       - ../.env
 
-  # frontend:
-  #   image: ratarov/prosept_front:latest
-  #   container_name: prosept_front
-  #   volumes:
-  #     - ../frontend/:/app/result_build/
-  #   depends_on:
-  #     - backend
+  frontend:
+    image: ratarov/prosept_front:latest
+    container_name: prosept_front
+    volumes:
+      - ../frontend/:/app/result_build/
+    depends_on:
+      - backend
+    env_file:
+      - ../.env
 
   nginx:
     image: nginx:1.21.3-alpine
@@ -36,11 +38,11 @@ services:
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      # - ../frontend/dist:/usr/share/nginx/html/
+      - ../frontend/build:/usr/share/nginx/html/
       - static_data:/var/html/static/
     depends_on:
       - backend
-      # - frontend
+      - frontend
     restart: always
 
 volumes:
