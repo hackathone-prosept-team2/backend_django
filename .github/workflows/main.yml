@@ -38,7 +38,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           password: ${{ secrets.PASSPHRASE }}
           script: |
-            cd prosept_app/
+            cd prosept_app/deploy/
 
             sudo docker-compose stop
             sudo docker rm prosept_back
