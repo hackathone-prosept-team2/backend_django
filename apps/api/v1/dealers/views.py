@@ -1,8 +1,12 @@
 from drf_spectacular.utils import extend_schema_view
+
+from rest_framework import views, status
+from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from apps.dealers.crud import list_dealers, list_keys, list_dealers_report_data
+from apps.dealers.crud import list_dealers, list_keys, list_matches, list_dealers_report_data
+from apps.dealers.services import decline_matches
 
 from ..pagination import CommonPagePagination
 from .filters import DealerKeyFilter
@@ -33,3 +37,22 @@ class DealerKeyViewset(ReadOnlyModelViewSet):
     serializer_class = ser.KeySerializer
     pagination_class = CommonPagePagination
     filterset_class = DealerKeyFilter
+
+
+class MatchView(ListAPIView):
+    """Список предлагаемых соответствий Ключ - Продукт."""
+
+    serializer_class = ser.MatchSerializer
+
+    def get_queryset(self):
+        key_pk = self.kwargs.get("pk")
+        return list_matches(key_pk=key_pk)
+
+
+class DeclineMatchesView(views.APIView):
+    """Отклонение всех предлагаемых соответствий Ключ - Продукт."""
+
+    def post(self, request, pk):
+        key_pk = self.kwargs.get("pk")
+        decline_matches(key_pk=key_pk)
+        return Response(status=status.HTTP_200_OK)
