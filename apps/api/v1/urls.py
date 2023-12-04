@@ -2,11 +2,12 @@ from django.urls import include, path
 from rest_framework import routers
 
 from .dealers.views import (
+    ChooseMatchView,
     DealerViewset,
     DealerKeyViewset,
     MatchView,
     DeclineMatchesView,
-    DealersReport
+    DealersReport,
 )
 from .prices.views import KeyPriceViewset
 from .products.views import ProductViewset
@@ -26,6 +27,11 @@ urlpatterns = [
         "keys/<int:pk>/prices/", KeyPriceViewset.as_view(), name="key_prices"
     ),
     path("keys/<int:pk>/matches/", MatchView.as_view(), name="get_matches"),
+    path(
+        "keys/<int:pk>/choose_match/",
+        ChooseMatchView.as_view(),
+        name="choose_match",
+    ),
     path(
         "keys/<int:pk>/decline_matches/",
         DeclineMatchesView.as_view(),
