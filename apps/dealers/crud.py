@@ -80,9 +80,9 @@ def list_matches(key_pk: int, add_products: bool = True) -> QuerySet[Match]:
 
 
 def change_status_to_declined(matches: QuerySet[Match]) -> None:
-    """Изменение статуса у всех предложений на 'Не подходит'."""
-    for match in matches:
-        match.status = Match.MatchStatus.NO
+    """Изменение статуса у всех предложений на "Не подходит"."""
+    for product_match in matches:
+        product_match.status = Match.MatchStatus.NO
     Match.objects.bulk_update(matches, ["status"])
     return None
 
@@ -90,19 +90,30 @@ def change_status_to_declined(matches: QuerySet[Match]) -> None:
 def choose_one_decline_others(
     matches: QuerySet[Match], product_id: int
 ) -> None:
-    for match in matches:
-        if match.product_id == product_id:
-            match.status = Match.MatchStatus.YES
+    """
+    Изменение статуса у всех предложений ключа:
+    "Подтверждено" для выбранного; "Не подходит" для остальных.
+    """
+    for product_match in matches:
+        if product_match.product_id == product_id:
+            product_match.status = Match.MatchStatus.YES
         else:
-            match.status = Match.MatchStatus.NO
+            product_match.status = Match.MatchStatus.NO
     Match.objects.bulk_update(matches, ["status"])
     return None
 
 
 def set_product_for_dealer_key(dealer_key_id: int, product_id: int) -> None:
+    """Назначение продукта уникальному ключу дилера."""
     key = DealerKey.objects.filter(id=dealer_key_id).first()
     key.product_id = product_id
     key.save()
+    return None
+
+
+def delete_new_dealer_keys() -> None:
+    """Удаление всех ключей дилеров, которых не было в начальном csv."""
+    DealerKey.objects.filter(is_provided=False).delete()
     return None
 
 

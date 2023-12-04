@@ -9,7 +9,7 @@ from .dealers.views import (
     DeclineMatchesView,
     DealersReport,
 )
-from .prices.views import KeyPriceViewset
+from .prices.views import DeletePricesView, KeyPriceViewset
 from .products.views import ProductViewset
 from .users.views import UserViewset
 
@@ -37,6 +37,7 @@ urlpatterns = [
         DeclineMatchesView.as_view(),
         name="decline_matches",
     ),
+    path("prices/", DeletePricesView.as_view(), name="delete_prices"),
     path("", include(router.urls)),
     path("auth/", include("djoser.urls.authtoken")),
 ]
