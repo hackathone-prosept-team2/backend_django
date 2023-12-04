@@ -77,6 +77,11 @@ class MatchSerializer(serializers.ModelSerializer):
         model = Match
         fields = ("id", "product", "metrics", "status")
 
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep["status"] = instance.get_status_display()
+        return rep
+
 
 class ChooseMatchSerializer(serializers.Serializer):
     product_id = serializers.IntegerField()
