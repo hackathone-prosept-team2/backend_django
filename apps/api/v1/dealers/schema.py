@@ -1,5 +1,7 @@
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 
+from . import serializer as ser
+
 
 dealer_schema = {
     "list": extend_schema(description="Получение списка дилеров."),
@@ -30,4 +32,17 @@ key_schema = {
         ],
     ),
     "retrieve": extend_schema(description="Просмотр экземпляра ключа дилера."),
+}
+
+
+matches_schema = {
+    "post": extend_schema(responses=ser.MatchSerializer(many=True))
+}
+
+
+choose_match_schema = {
+    "post": extend_schema(
+        request=ser.ChooseMatchSerializer(),
+        responses=ser.MatchSerializer(many=True),
+    )
 }

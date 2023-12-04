@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from apps.dealers.models import Dealer, DealerKey, Match
+from apps.products.crud import product_exists
 
 from ..products.serializer import ProductShortSerializer
 
@@ -68,8 +69,21 @@ class KeySerializer(serializers.ModelSerializer):
 
 
 class MatchSerializer(serializers.ModelSerializer):
+    """Сериализатор полей списка предлагаемых соответствий Ключ - Продукт."""
+
     product = ProductShortSerializer()
 
     class Meta:
         model = Match
         fields = ("id", "product", "metrics", "status")
+
+
+class ChooseMatchSerializer(serializers.Serializer):
+    product_id = serializers.IntegerField()
+
+    def validate_product_id(self, value):
+        if not product_exists(product_id=value):
+            raise serializers.ValidationError(
+                "Указанный id продукта отсутствует в базе."
+            )
+        return value
