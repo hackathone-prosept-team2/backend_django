@@ -2,11 +2,13 @@ from django_filters import rest_framework as filters
 from django.db.models import Q
 
 from apps.dealers.models import DealerKey
+from config.constants import KeyStatus, MATCH_NUMBER
 
 
 class DealerKeyFilter(filters.FilterSet):
     article = filters.CharFilter(method="get_article")
     status = filters.CharFilter(method="get_status")
+    # similarity = filters.NumberFilter(method="get_similarity")
 
     class Meta:
         model = DealerKey
@@ -24,6 +26,16 @@ class DealerKeyFilter(filters.FilterSet):
         """Поиск по статусу."""
         if not value:
             return queryset
-        if value == "-":
-            return queryset.filter(status=101)
-        return queryset.exclude(status=101)
+        if value == KeyStatus.FOUND:
+            return queryset.filter(product_id__isnull=False)
+        if value == KeyStatus.DECLINED:
+            return queryset.filter(declined=MATCH_NUMBER)
+        return queryset.filter(
+            product_id__isnull=True, declined__lt=MATCH_NUMBER
+        )
+
+    # def get_similarity(self, queryset, name, value):
+    #     """Поиск по показателю схожести."""
+    #     if value:
+    #         return queryset.filter(similarity__gte=value)
+    #     return queryset

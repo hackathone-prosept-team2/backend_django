@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from apps.dealers.models import Dealer, DealerKey, Match
 from apps.products.crud import product_exists
+from config.constants import MATCH_NUMBER, KeyStatus
 
 from ..products.serializer import ProductShortSerializer
 
@@ -53,8 +54,8 @@ class KeySerializer(serializers.ModelSerializer):
     product = ProductShortSerializer()
     name = serializers.CharField()
     last_price = serializers.DecimalField(max_digits=7, decimal_places=2)
-    similarity = serializers.SerializerMethodField()
-    # status = serializers.IntegerField()
+    # similarity = serializers.IntegerField()
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = DealerKey
@@ -63,16 +64,18 @@ class KeySerializer(serializers.ModelSerializer):
             "key",
             "name",
             "last_price",
-            # "status",
-            "similarity",
+            "status",
+            # "similarity",
             "dealer",
             "product",
         )
 
-    def get_similarity(self, obj):
-        if obj.status == 101:
-            return "-"
-        return obj.status
+    def get_status(self, obj):
+        if obj.product_id is not None:
+            return KeyStatus.FOUND
+        if obj.declined == MATCH_NUMBER:
+            return KeyStatus.DECLINED
+        return KeyStatus.CHECK
 
 
 class MatchSerializer(serializers.ModelSerializer):

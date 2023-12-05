@@ -20,6 +20,11 @@ def list_prices() -> QuerySet[DealerPrice]:
     )
 
 
+def there_are_prices_in_db() -> bool:
+    """Проверяет наличие в БД загруженных цен."""
+    return DealerPrice.objects.exists()
+
+
 def delete_all_prices() -> None:
     """Удаление всех цен."""
     DealerPrice.objects.all().delete()

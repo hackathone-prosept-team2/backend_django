@@ -2,8 +2,6 @@ from django.db.models import (
     QuerySet,
     OuterRef,
     Subquery,
-    Case,
-    When,
     Value,
     Count,
     Q,
@@ -39,7 +37,10 @@ def list_dealers_report_data() -> QuerySet[Dealer]:
             ),
         ),
         # TODO добавить код, когда будут модели рекомендаций
-        confirmed_matches=Value(1),
+        confirmed_matches=Count(
+            "dealer_keys__matches",
+            filter=Q(dealer_keys__matches__status=Match.MatchStatus.YES),
+        ),
         to_be_checked=Value(1),
         no_matches=Value(1),
     )
@@ -59,15 +60,14 @@ def list_keys() -> QuerySet[DealerKey]:
                     "price"
                 )[:1]
             ),
-            status=Case(
-                When(product__isnull=False, then=Value(101)),
-                # TODO код для расчета статуса по рекомендациям
-                default=Subquery(
-                    Match.objects.filter(key_id=OuterRef("pk")).values(
-                        "similarity"
-                    )[:1]
-                ),
+            declined=Count(
+                "matches", filter=Q(matches__status=Match.MatchStatus.NO)
             ),
+            # similarity=Subquery(
+            #     Match.objects.filter(key_id=OuterRef("pk")).values(
+            #         "similarity"
+            #     )[:1]
+            # ),
         )
         # фильтр позволяет выгружать только ключи, которые есть в списке цен
         .filter(name__isnull=False)
@@ -76,9 +76,7 @@ def list_keys() -> QuerySet[DealerKey]:
 
 def list_matches(key_pk: int, add_products: bool = True) -> QuerySet[Match]:
     """Получение списка возможных соответствий Ключ - Продукт."""
-    subquery = Match.objects.filter(key_id=key_pk)
-    if add_products:
-        subquery = subquery.select_related("product")
+    subquery = Match.objects.filter(key_id=key_pk).select_related("product")
     query = DealerKey.objects.prefetch_related(
         Prefetch(
             "matches",
