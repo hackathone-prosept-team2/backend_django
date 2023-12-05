@@ -53,7 +53,8 @@ class KeySerializer(serializers.ModelSerializer):
     product = ProductShortSerializer()
     name = serializers.CharField()
     last_price = serializers.DecimalField(max_digits=7, decimal_places=2)
-    status = serializers.CharField()
+    similarity = serializers.SerializerMethodField()
+    # status = serializers.IntegerField()
 
     class Meta:
         model = DealerKey
@@ -62,10 +63,16 @@ class KeySerializer(serializers.ModelSerializer):
             "key",
             "name",
             "last_price",
-            "status",
+            # "status",
+            "similarity",
             "dealer",
             "product",
         )
+
+    def get_similarity(self, obj):
+        if obj.status == 101:
+            return "-"
+        return obj.status
 
 
 class MatchSerializer(serializers.ModelSerializer):
@@ -75,7 +82,7 @@ class MatchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Match
-        fields = ("id", "product", "metrics", "status")
+        fields = ("id", "product", "similarity", "status")
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
@@ -84,6 +91,8 @@ class MatchSerializer(serializers.ModelSerializer):
 
 
 class ChooseMatchSerializer(serializers.Serializer):
+    """Сериализатор выбора Продукта из предлагаемых соответствий."""
+
     product_id = serializers.IntegerField()
 
     def validate_product_id(self, value):

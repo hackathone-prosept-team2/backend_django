@@ -64,7 +64,7 @@ class Match(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, verbose_name="Продукт"
     )
-    metrics = models.FloatField(verbose_name="Метрика совпадения")
+    similarity = models.IntegerField(verbose_name="Метрика соответствия в %")
     status = models.CharField(
         verbose_name="Статус предложения",
         max_length=3,
@@ -73,7 +73,7 @@ class Match(models.Model):
     )
 
     class Meta:
-        ordering = ("-metrics", "id")
+        ordering = ("-similarity", "id")
         verbose_name = "Предложение соответствия"
         verbose_name_plural = "Предложения соответствия"
         default_related_name = "matches"

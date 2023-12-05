@@ -36,6 +36,7 @@ def get_products_datasets() -> list[Product]:
 
 
 def get_dealers_datasets() -> list[Dealer]:
+    """Сбор списка аргументов для создания Дилеров."""
     filename = Path("static", "fixtures", "marketing_dealer.csv")
     with open(filename, mode="r", encoding="utf8") as file:
         reader = csv.DictReader(file, delimiter=";")
@@ -44,6 +45,7 @@ def get_dealers_datasets() -> list[Dealer]:
 
 
 def get_dealers_keys_datasets() -> list[DealerKey]:
+    """Сбор списка аргументов для создания Ключей/артикулов дилеров."""
     filename = Path("static", "fixtures", "marketing_productdealerkey.csv")
     with open(filename, mode="r", encoding="utf8") as file:
         reader = csv.DictReader(file, delimiter=";")

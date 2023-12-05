@@ -24,3 +24,11 @@ def delete_all_prices() -> None:
     """Удаление всех цен."""
     DealerPrice.objects.all().delete()
     return None
+
+
+def prices_bulk_create(fields_sets: dict) -> None:
+    fields = []
+    for field_set in fields_sets:
+        fields.append(DealerPrice(**field_set))
+    DealerPrice.objects.bulk_create(fields)
+    return None

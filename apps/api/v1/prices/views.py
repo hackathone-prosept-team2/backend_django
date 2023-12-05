@@ -3,13 +3,13 @@ from rest_framework import views, status
 from rest_framework.response import Response
 
 from apps.prices.crud import list_key_prices
-from apps.prices.services import delete_prices_and_relations
+from apps.prices.services import delete_prices_and_relations, create_prices
 
 from ..pagination import NestedPagePagination
 from . import serializer as ser
 
 
-class KeyPriceViewset(ListAPIView):
+class KeyPriceView(ListAPIView):
     """Цены дилеров компании Просепт по 1 ключу."""
 
     pagination_class = NestedPagePagination
@@ -20,8 +20,12 @@ class KeyPriceViewset(ListAPIView):
         return list_key_prices(key_pk=key_pk)
 
 
-class DeletePricesView(views.APIView):
-    """Удаление всех загруженных цен дилеров и связанных ключей дилеров."""
+class PricesView(views.APIView):
+    """Загрузка и удаление цен дилеров и связанных ключей дилеров."""
+
+    def post(self, request):
+        create_prices()
+        return Response(status=status.HTTP_201_CREATED)
 
     def delete(self, request):
         delete_prices_and_relations()
