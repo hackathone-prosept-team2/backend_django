@@ -1,13 +1,16 @@
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 
-from . import serializer as ser
+from config.constants import KeyStatus
 
+from . import serializer as ser
 
 dealer_schema = {
     "list": extend_schema(description="Получение списка дилеров."),
     "retrieve": extend_schema(description="Просмотр экземпляра дилера."),
 }
 
+
+filter_options = [KeyStatus.CHECK, KeyStatus.DECLINED, KeyStatus.FOUND]
 
 key_schema = {
     "list": extend_schema(
@@ -23,7 +26,7 @@ key_schema = {
             ),
             OpenApiParameter(
                 name="status",
-                description="Фильтр по статусу; варианты: '-', '0', '1+'",
+                description=f"Фильтр по статусу: {filter_options}",
             ),
             OpenApiParameter(
                 name="page",

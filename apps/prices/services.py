@@ -70,7 +70,6 @@ def create_prices() -> None:
             dealer_id=dataset["dealer_id"],
             id=id_counter,
         )
-        fields = form_price_obj_fields(id=dealer_key.id, dataset=dataset)
 
         if created:
             id_counter += 1
@@ -78,6 +77,7 @@ def create_prices() -> None:
         elif dealer_key.id in keys_to_match:
             keys_to_match[dealer_key.id] = dataset["product_name"]
 
+        fields = form_price_obj_fields(id=dealer_key.id, dataset=dataset)
         prices_datasets.append(fields)
     recommend_products(key_datasets=keys_to_match)
     prices_bulk_create(fields_sets=prices_datasets)
