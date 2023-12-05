@@ -24,6 +24,6 @@ class DealerKeyFilter(filters.FilterSet):
         """Поиск по статусу."""
         if not value:
             return queryset
-        if value in ["-", "0"]:
-            return queryset.filter(status=value)
-        return queryset.exclude(status__in=["-", "0"])
+        if value == "-":
+            return queryset.filter(status=101)
+        return queryset.exclude(status=101)
