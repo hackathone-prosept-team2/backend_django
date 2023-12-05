@@ -30,7 +30,7 @@ class DealerReportSerializer(BaseDealerSerializer):
     keys_without_product = serializers.SerializerMethodField()
     confirmed_matches = serializers.IntegerField()
     to_be_checked = serializers.IntegerField()
-    no_matches = serializers.IntegerField()
+    no_matches = serializers.SerializerMethodField()
 
     class Meta(BaseDealerSerializer.Meta):
         fields = BaseDealerSerializer.Meta.fields + (
@@ -45,6 +45,9 @@ class DealerReportSerializer(BaseDealerSerializer):
 
     def get_keys_without_product(self, obj):
         return obj.total_keys - obj.keys_with_product
+
+    def get_no_matches(self, obj):
+        return obj.total_keys - obj.keys_with_product - obj.to_be_checked
 
 
 class KeySerializer(serializers.ModelSerializer):

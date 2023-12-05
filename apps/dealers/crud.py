@@ -2,7 +2,6 @@ from django.db.models import (
     QuerySet,
     OuterRef,
     Subquery,
-    Value,
     Count,
     Q,
     Prefetch,
@@ -36,13 +35,16 @@ def list_dealers_report_data() -> QuerySet[Dealer]:
                 & Q(dealer_keys__prices__isnull=False)
             ),
         ),
-        # TODO добавить код, когда будут модели рекомендаций
         confirmed_matches=Count(
-            "dealer_keys__matches",
+            "dealer_keys",
+            distinct=True,
             filter=Q(dealer_keys__matches__status=Match.MatchStatus.YES),
         ),
-        to_be_checked=Value(1),
-        no_matches=Value(1),
+        to_be_checked=Count(
+            "dealer_keys",
+            distinct=True,
+            filter=Q(dealer_keys__matches__status=Match.MatchStatus.NEW),
+        ),
     )
 
 

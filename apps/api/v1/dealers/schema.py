@@ -1,6 +1,6 @@
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 
-from apps.dealers.models import Match
+from config.constants import KeyStatus
 
 from . import serializer as ser
 
@@ -10,7 +10,7 @@ dealer_schema = {
 }
 
 
-filter_options = Match.MatchStatus.choices
+filter_options = [KeyStatus.CHECK, KeyStatus.DECLINED, KeyStatus.FOUND]
 
 key_schema = {
     "list": extend_schema(
