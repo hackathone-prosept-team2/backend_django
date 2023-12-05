@@ -11,7 +11,7 @@ ENV PYTHONPATH="$PYTHONPATH:/app"
 RUN poetry config virtualenvs.create false \
   && poetry install --without dev --no-interaction --no-ansi
 
-RUN python -m nltk.downloader punkt
+RUN python -m nltk.downloader wordnet
 
 COPY . .
 
