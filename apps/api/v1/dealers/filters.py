@@ -1,8 +1,8 @@
-from django_filters import rest_framework as filters
 from django.db.models import Q
+from django_filters import rest_framework as filters
 
 from apps.dealers.models import DealerKey
-from config.constants import KeyStatus, MATCH_NUMBER
+from config.constants import MATCH_NUMBER, KeyStatus
 
 
 class DealerKeyFilter(filters.FilterSet):

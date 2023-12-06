@@ -3,13 +3,13 @@ from rest_framework import routers
 
 from .dealers.views import (
     ChooseMatchView,
-    DealerViewset,
     DealerKeyViewset,
-    MatchView,
-    DeclineMatchesView,
     DealersReport,
+    DealerViewset,
+    DeclineMatchesView,
+    MatchView,
 )
-from .prices.views import PricesView, KeyPriceView
+from .prices.views import KeyPriceView, PricesView
 from .products.views import ProductViewset
 from .users.views import UserViewset
 

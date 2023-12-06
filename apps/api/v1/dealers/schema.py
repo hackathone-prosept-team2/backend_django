@@ -1,4 +1,4 @@
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 
 from config.constants import KeyStatus
 

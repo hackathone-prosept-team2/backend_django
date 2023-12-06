@@ -1,11 +1,4 @@
-from django.db.models import (
-    QuerySet,
-    OuterRef,
-    Subquery,
-    Count,
-    Q,
-    Prefetch,
-)
+from django.db.models import Count, OuterRef, Prefetch, Q, QuerySet, Subquery
 from django.shortcuts import get_object_or_404
 
 from apps.prices.models import DealerPrice

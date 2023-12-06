@@ -2,9 +2,9 @@ from django.db.models import QuerySet
 from django.db.transaction import atomic
 
 from .crud import (
-    list_matches,
     change_status_to_declined,
     choose_one_decline_others,
+    list_matches,
     set_product_for_dealer_key,
 )
 from .models import Match

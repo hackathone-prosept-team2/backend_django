@@ -4,10 +4,10 @@ from pathlib import Path
 from django.db.transaction import atomic
 
 from apps.dealers.crud import (
-    delete_new_dealer_keys,
     delete_all_matches,
-    get_or_create_dealer_key,
+    delete_new_dealer_keys,
     get_first_free_dealer_key_id,
+    get_or_create_dealer_key,
     matches_bulk_create,
 )
 from apps.services.match_service import RecommendationService

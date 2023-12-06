@@ -1,5 +1,6 @@
-import pandas as pd
 import re
+
+import pandas as pd
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import pairwise_distances
