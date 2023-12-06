@@ -39,3 +39,20 @@ USER_INVALID_DATA = (
         "пользователь с коротким паролем",
     ),
 )
+
+
+TEST_PRICE_DATA = [
+    {
+        "product_key": "26397139",
+        "price": "1975.00",
+        "product_url": (
+            "https://vimos.ru/product/kraska-dla-plit-osb-"
+            "prosept-dla-vnutrennih-i-naruznyh-rabot-7-kg"
+        ),
+        "product_name": (
+            "Краска для плит OSB Prosept для внутренних и наружных работ 7 кг"
+        ),
+        "date": "2023-07-14",
+        "dealer_id": 16,
+    }
+]
