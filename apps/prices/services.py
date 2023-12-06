@@ -63,9 +63,9 @@ def recommend_products(key_datasets: dict[int, str]) -> None:
 
 
 @atomic
-def create_prices() -> None:
+def create_prices(price_data: list[dict] | None = None) -> None:
     """Сервис по созданию Цен дилеров с подбором продуктов к ним."""
-    data = get_prices_data()
+    data = price_data if price_data is not None else get_prices_data()
     id_counter = get_first_free_dealer_key_id()
     prices_datasets = []
     keys_to_match = {}
