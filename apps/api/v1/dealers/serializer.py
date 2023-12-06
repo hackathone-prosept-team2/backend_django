@@ -57,7 +57,6 @@ class KeySerializer(serializers.ModelSerializer):
     product = ProductShortSerializer()
     name = serializers.CharField()
     last_price = serializers.DecimalField(max_digits=7, decimal_places=2)
-    # similarity = serializers.IntegerField()
     status = serializers.SerializerMethodField()
 
     class Meta:
@@ -68,7 +67,6 @@ class KeySerializer(serializers.ModelSerializer):
             "name",
             "last_price",
             "status",
-            # "similarity",
             "dealer",
             "product",
         )

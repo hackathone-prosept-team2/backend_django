@@ -1,11 +1,4 @@
-from django.db.models import (
-    QuerySet,
-    OuterRef,
-    Subquery,
-    Count,
-    Q,
-    Prefetch,
-)
+from django.db.models import Count, OuterRef, Prefetch, Q, QuerySet, Subquery
 from django.shortcuts import get_object_or_404
 
 from apps.prices.models import DealerPrice
@@ -65,11 +58,6 @@ def list_keys() -> QuerySet[DealerKey]:
             declined=Count(
                 "matches", filter=Q(matches__status=Match.MatchStatus.NO)
             ),
-            # similarity=Subquery(
-            #     Match.objects.filter(key_id=OuterRef("pk")).values(
-            #         "similarity"
-            #     )[:1]
-            # ),
         )
         # фильтр позволяет выгружать только ключи, которые есть в списке цен
         .filter(name__isnull=False)
@@ -137,6 +125,7 @@ def delete_all_matches() -> None:
 def get_or_create_dealer_key(
     id: int, dealer_key: str, dealer_id: int
 ) -> tuple[DealerKey, bool]:
+    """Получение или создание (при отсутствии) экземпляра ключа."""
     return DealerKey.objects.get_or_create(
         key=dealer_key,
         dealer_id=dealer_id,
@@ -145,16 +134,14 @@ def get_or_create_dealer_key(
 
 
 def get_first_free_dealer_key_id():
+    """Получение первого свободного id Ключа дилера."""
     return DealerKey.objects.last().id + 1
 
 
 def matches_bulk_create(field_sets: list[dict]) -> None:
+    """Создание в БД партии объектов Match (рекомендации)."""
     fields = []
     for field_set in field_sets:
         fields.append(Match(**field_set))
     Match.objects.bulk_create(fields)
     return None
-
-
-# def get_keys_values():
-#     return dict(DealerKey.objects.values_list("key", "id"))

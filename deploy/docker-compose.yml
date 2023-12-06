@@ -11,8 +11,8 @@ services:
 
   backend:
     container_name: prosept_back
-    build: ../.
-    # image: ratarov/prosept_back:latest
+    # build: ../.
+    image: ratarov/prosept_back:latest
     restart: always
     volumes:
       - static_data:/app/static/
