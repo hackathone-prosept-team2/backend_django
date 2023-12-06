@@ -65,11 +65,6 @@ def list_keys() -> QuerySet[DealerKey]:
             declined=Count(
                 "matches", filter=Q(matches__status=Match.MatchStatus.NO)
             ),
-            # similarity=Subquery(
-            #     Match.objects.filter(key_id=OuterRef("pk")).values(
-            #         "similarity"
-            #     )[:1]
-            # ),
         )
         # фильтр позволяет выгружать только ключи, которые есть в списке цен
         .filter(name__isnull=False)

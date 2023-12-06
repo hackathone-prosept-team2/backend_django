@@ -1,22 +1,20 @@
 from drf_spectacular.utils import extend_schema_view
-
-from rest_framework import views, status
-from rest_framework.response import Response
+from rest_framework import status, views
 from rest_framework.generics import ListAPIView
+from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from apps.dealers.crud import (
     list_dealers,
+    list_dealers_report_data,
     list_keys,
     list_matches,
-    list_dealers_report_data,
 )
-from apps.dealers.services import decline_matches, choose_match
+from apps.dealers.services import choose_match, decline_matches
 
 from ..pagination import CommonPagePagination
+from . import schema, serializer as ser
 from .filters import DealerKeyFilter
-from . import schema
-from . import serializer as ser
 
 
 @extend_schema_view(**schema.dealer_schema)

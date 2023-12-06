@@ -45,6 +45,10 @@ matches_schema = {
 
 choose_match_schema = {
     "post": extend_schema(
+        description=(
+            "Выбор 1 предлагаемого соответствия Ключ - Продукт. "
+            "Остальные помечаются как 'Не подходит'."
+        ),
         request=ser.ChooseMatchSerializer(),
         responses=ser.MatchSerializer(many=True),
     )
