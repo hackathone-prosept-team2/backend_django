@@ -24,6 +24,8 @@ def delete_prices_and_relations() -> None:
 
 
 def get_prices_data() -> list[dict]:
+    """Получение загружаемых данных по ценам дилеров."""
+    # TODO пока работает с файлом по умолчанию; расширяемо на json и csv
     filename = Path("static", "fixtures", "marketing_dealerprice.csv")
     with open(filename, mode="r", encoding="utf8") as file:
         reader = csv.DictReader(file, delimiter=";")
@@ -32,6 +34,7 @@ def get_prices_data() -> list[dict]:
 
 
 def form_price_obj_fields(id: int, dataset: dict) -> dict:
+    """Формирование словаря с полями объекта DealerPrice."""
     return {
         "key_id": id,
         "price": dataset["price"],
@@ -42,6 +45,7 @@ def form_price_obj_fields(id: int, dataset: dict) -> dict:
 
 
 def recommend_products(key_datasets: dict[int, str]) -> None:
+    """Запуск системы подбора продуктов к списку Ключей, запись результатов."""
     service = RecommendationService()
     matches_datasets = []
     for key_id, name in key_datasets.items():
@@ -60,6 +64,7 @@ def recommend_products(key_datasets: dict[int, str]) -> None:
 
 @atomic
 def create_prices() -> None:
+    """Сервис по созданию Цен дилеров с подбором продуктов к ним."""
     data = get_prices_data()
     id_counter = get_first_free_dealer_key_id()
     prices_datasets = []

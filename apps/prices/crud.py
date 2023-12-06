@@ -32,6 +32,7 @@ def delete_all_prices() -> None:
 
 
 def prices_bulk_create(fields_sets: dict) -> None:
+    """Создание в БД партии объектов DealerPrice (цена дилера)."""
     fields = []
     for field_set in fields_sets:
         fields.append(DealerPrice(**field_set))
