@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
 
-from .crud import list_keys
+from .crud import list_keys_in_admin
 from .models import Dealer, DealerKey, Match
 
 
@@ -47,7 +47,7 @@ class DealerKeyAdmin(admin.ModelAdmin):
     empty_value_display = "-пусто-"
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
-        return list_keys()
+        return list_keys_in_admin()
 
     def name(self, obj):
         return obj.name
