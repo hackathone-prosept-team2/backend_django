@@ -27,7 +27,7 @@ https://github.com/hackathone-prosept-team2/data-science
 ![image](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 ![image](https://img.shields.io/badge/Poetry-053766?style=for-the-badge&logo=Sailfish%20OS&logoColor=white)
 ![image](https://img.shields.io/badge/Pytest-86D46B?style=for-the-badge&logo=redux%20saga&logoColor=999999)
-+ DS-сервис рекомендаций:
+DS-сервис рекомендаций (является частью бэкенд-приложения):<br>
 ![image](https://img.shields.io/badge/Pandas-2C2D72?style=for-the-badge&logo=pandas&logoColor=white)
 ![image](https://img.shields.io/badge/NLTK-FF3621?style=for-the-badge)
 ![image](https://img.shields.io/badge/SKlearn-7A1FA2?style=for-the-badge)
@@ -81,20 +81,20 @@ Authorization: Token <access-token>
 
 ## Запуск проекта
 ### Переменные окружения
-Файл .env хранится в корневой папке проекта; пример заполнения в .env.example.
+Необходимо создать файл .env - хранится в корневой папке проекта; пример заполнения в .env.example (можно переименовать в .env).
 
 ### Запуск с установленным Docker
-Копировать проект в папку целиком (для запуска контейнеров достаточно .env в корне проекта и папки /infra)
+Копировать проект в папку целиком (для запуска контейнеров достаточно .env в корне проекта и папки /deploy)
 ```
 git clone git@github.com:hackathone-prosept-team2/backend_django.git
 ```
 Перейти в папку deploy и запустить сборку контейнеров
 ```
 cd backend_django/deploy
-docker compose up -d
+docker compose up -d --build
 ```
 Сайт доступен по адресу http://127.0.0.1/<br>
-В базе данных уже есть Суперпользователь с указанными с .env данными (или данными по умолчанию выше) и загружены файлы:
+В базе данных уже есть Суперпользователь с указанными в .env данными (или данными по умолчанию выше) и загружены файлы:
 ```
 marketing_dealer
 marketing_product
@@ -102,13 +102,13 @@ marketing_productdealerkey
 ```
 
 ## Команда
+### Project Manger
+Виктория Мудрова
 ### Backend:
 [Руслан Атаров](https://github.com/ratarov) <br>
-### Data-Science:
-[Кирилл Шулев](https://github.com/Kexxshas)<br>
-Павел Барков
 ### Frontend:
 [Максим Таланов](https://github.com/maxtalanov) <br>
 [Линда Суховенко](https://github.com/SuhLinda)
-### Project Manger
-Виктория Мудрова
+### Data-Science:
+[Кирилл Шулев](https://github.com/Kexxshas)<br>
+Павел Барков

@@ -69,12 +69,20 @@ def create_prices(price_data: list[dict] | None = None) -> None:
     id_counter = get_first_free_dealer_key_id()
     prices_datasets = []
     keys_to_match = {}
+    keys_checked = {}
     for dataset in data:
-        dealer_key, created = get_or_create_dealer_key(
-            dealer_key=dataset["product_key"],
-            dealer_id=dataset["dealer_id"],
-            id=id_counter,
-        )
+        unique_pair = dataset["product_key"] + "#" + dataset["dealer_id"]
+        if unique_pair in keys_checked:
+            # получение данных из кэша
+            dealer_key, created = keys_checked[unique_pair], False
+        else:
+            dealer_key, created = get_or_create_dealer_key(
+                dealer_key=dataset["product_key"],
+                dealer_id=dataset["dealer_id"],
+                id=id_counter,
+            )
+            # кэширование запросов
+            keys_checked[unique_pair] = dealer_key
 
         if created:
             id_counter += 1
