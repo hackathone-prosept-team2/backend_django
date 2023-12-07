@@ -46,5 +46,3 @@ jobs:
             sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/prosept_back
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/prosept_back:latest
             sudo docker-compose up -d --build
-            sudo docker exec -i prosept_back python manage.py migrate
-            sudo docker exec -i prosept_back python manage.py collectstatic --noinput

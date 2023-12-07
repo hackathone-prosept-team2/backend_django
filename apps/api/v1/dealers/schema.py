@@ -1,3 +1,5 @@
+from datetime import date
+
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 
 from config.constants import KeyStatus
@@ -44,12 +46,14 @@ key_export_schema = {
         parameters=[
             OpenApiParameter(
                 name="new",
+                type=bool,
                 description=(
                     "Фильтр по ключам, которых не было в стартовом csv"
                 ),
             ),
             OpenApiParameter(
                 name="since",
+                type=date,
                 description=(
                     "Выводит ключи, записанные с указанной даты. "
                     "Формат ДД.ММ.ГГГГ"
@@ -57,6 +61,7 @@ key_export_schema = {
             ),
             OpenApiParameter(
                 name="date",
+                type=date,
                 description=(
                     "Выводит ключи, записанные в указанную дату. "
                     "Формат ДД.ММ.ГГГГ"

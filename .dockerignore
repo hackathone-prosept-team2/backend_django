@@ -1,0 +1,7 @@
+.env
+venv
+*.py[cod]
+__pycache__
+presentation/
+htmlcov/
+frontend/
