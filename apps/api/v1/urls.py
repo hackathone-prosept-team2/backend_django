@@ -4,6 +4,7 @@ from rest_framework import routers
 from .dealers.views import (
     ChooseMatchView,
     DealerKeyViewset,
+    ExportKeysView,
     DealersReport,
     DealerViewset,
     DeclineMatchesView,
@@ -23,6 +24,7 @@ router.register("auth/users", UserViewset, "users")
 
 urlpatterns = [
     path("dealers/report/", DealersReport.as_view(), name="dealers_report"),
+    path("keys/export/", ExportKeysView.as_view(), name="keys_export"),
     path("keys/<int:pk>/prices/", KeyPriceView.as_view(), name="key_prices"),
     path("keys/<int:pk>/matches/", MatchView.as_view(), name="get_matches"),
     path(

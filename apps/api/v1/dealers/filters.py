@@ -35,3 +35,31 @@ class DealerKeyFilter(filters.FilterSet):
                     product_id__isnull=True, declined__lt=MATCH_NUMBER
                 )
         return queryset
+
+
+class DealerKeyExportFilter(filters.FilterSet):
+    new = filters.BooleanFilter(method="get_new")
+    since = filters.DateFilter(method="get_since")
+    date = filters.DateFilter(method="get_date")
+
+    class Meta:
+        model = DealerKey
+        fields = ("new", "since", "date")
+
+    def get_new(self, queryset, name, value):
+        """Фильтр по is_provided - ключи, которых не было в начальном csv."""
+        if value:
+            return queryset.filter(is_provided=False)
+        return queryset
+
+    def get_since(self, queryset, name, value):
+        """Фильтр по дате присвоения продукта - начиная с даты."""
+        if value:
+            return queryset.filter(edited_at__gte=value)
+        return queryset
+
+    def get_date(self, queryset, name, value):
+        """Фильтр по дате присвоения продукта - в дату."""
+        if value:
+            return queryset.filter(edited_at=value)
+        return queryset

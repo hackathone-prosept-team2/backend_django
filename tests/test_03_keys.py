@@ -10,6 +10,7 @@ from config.constants import MATCH_NUMBER, KeyStatus
 @pytest.mark.django_db()
 class Test03DealerKey:
     list_url = "/api/v1/keys/"
+    export_url = "/api/v1/keys/export/"
     get_url = "/api/v1/keys/{id}/"
     matches_url = "/api/v1/keys/{id}/matches/"
     prices_url = "/api/v1/keys/{id}/prices/"

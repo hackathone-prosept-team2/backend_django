@@ -38,6 +38,34 @@ key_schema = {
 }
 
 
+key_export_schema = {
+    "get": extend_schema(
+        description="Получение списка уникальных ключей дилеров.",
+        parameters=[
+            OpenApiParameter(
+                name="new",
+                description=(
+                    "Фильтр по ключам, которых не было в стартовом csv"
+                ),
+            ),
+            OpenApiParameter(
+                name="since",
+                description=(
+                    "Выводит ключи, записанные с указанной даты. "
+                    "Формат ДД.ММ.ГГГГ"
+                ),
+            ),
+            OpenApiParameter(
+                name="date",
+                description=(
+                    "Выводит ключи, записанные в указанную дату. "
+                    "Формат ДД.ММ.ГГГГ"
+                ),
+            ),
+        ],
+    ),
+}
+
 matches_schema = {
     "post": extend_schema(responses=ser.MatchSerializer(many=True))
 }
