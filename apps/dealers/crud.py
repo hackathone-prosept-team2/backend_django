@@ -1,14 +1,4 @@
-from django.db.models import (
-    QuerySet,
-    OuterRef,
-    Subquery,
-    Case,
-    When,
-    Value,
-    Count,
-    Q,
-    Prefetch,
-)
+from django.db.models import Count, OuterRef, Prefetch, Q, QuerySet, Subquery
 from django.shortcuts import get_object_or_404
 
 from apps.prices.models import DealerPrice
@@ -38,10 +28,16 @@ def list_dealers_report_data() -> QuerySet[Dealer]:
                 & Q(dealer_keys__prices__isnull=False)
             ),
         ),
-        # TODO добавить код, когда будут модели рекомендаций
-        confirmed_matches=Value(1),
-        to_be_checked=Value(1),
-        no_matches=Value(1),
+        confirmed_matches=Count(
+            "dealer_keys",
+            distinct=True,
+            filter=Q(dealer_keys__matches__status=Match.MatchStatus.YES),
+        ),
+        to_be_checked=Count(
+            "dealer_keys",
+            distinct=True,
+            filter=Q(dealer_keys__matches__status=Match.MatchStatus.NEW),
+        ),
     )
 
 
@@ -59,14 +55,8 @@ def list_keys() -> QuerySet[DealerKey]:
                     "price"
                 )[:1]
             ),
-            status=Case(
-                When(product__isnull=False, then=Value(101)),
-                # TODO код для расчета статуса по рекомендациям
-                default=Subquery(
-                    Match.objects.filter(key_id=OuterRef("pk")).values(
-                        "similarity"
-                    )[:1]
-                ),
+            declined=Count(
+                "matches", filter=Q(matches__status=Match.MatchStatus.NO)
             ),
         )
         # фильтр позволяет выгружать только ключи, которые есть в списке цен
@@ -76,9 +66,7 @@ def list_keys() -> QuerySet[DealerKey]:
 
 def list_matches(key_pk: int, add_products: bool = True) -> QuerySet[Match]:
     """Получение списка возможных соответствий Ключ - Продукт."""
-    subquery = Match.objects.filter(key_id=key_pk)
-    if add_products:
-        subquery = subquery.select_related("product")
+    subquery = Match.objects.filter(key_id=key_pk).select_related("product")
     query = DealerKey.objects.prefetch_related(
         Prefetch(
             "matches",
@@ -88,6 +76,13 @@ def list_matches(key_pk: int, add_products: bool = True) -> QuerySet[Match]:
 
     dealer_key = get_object_or_404(query, id=key_pk)
     return dealer_key.matches.all()
+
+
+def list_keys_with_products() -> QuerySet[DealerKey]:
+    """Получение списка ключей с подобранными продуктами."""
+    return DealerKey.objects.filter(product_id__isnull=False).select_related(
+        "dealer", "product"
+    )
 
 
 def change_status_to_declined(matches: QuerySet[Match]) -> None:
@@ -137,6 +132,7 @@ def delete_all_matches() -> None:
 def get_or_create_dealer_key(
     id: int, dealer_key: str, dealer_id: int
 ) -> tuple[DealerKey, bool]:
+    """Получение или создание (при отсутствии) экземпляра ключа."""
     return DealerKey.objects.get_or_create(
         key=dealer_key,
         dealer_id=dealer_id,
@@ -145,16 +141,14 @@ def get_or_create_dealer_key(
 
 
 def get_first_free_dealer_key_id():
+    """Получение первого свободного id Ключа дилера."""
     return DealerKey.objects.last().id + 1
 
 
 def matches_bulk_create(field_sets: list[dict]) -> None:
+    """Создание в БД партии объектов Match (рекомендации)."""
     fields = []
     for field_set in field_sets:
         fields.append(Match(**field_set))
     Match.objects.bulk_create(fields)
     return None
-
-
-# def get_keys_values():
-#     return dict(DealerKey.objects.values_list("key", "id"))

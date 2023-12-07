@@ -1,13 +1,18 @@
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from datetime import date
+
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+
+from config.constants import KeyStatus
 
 from . import serializer as ser
-
 
 dealer_schema = {
     "list": extend_schema(description="Получение списка дилеров."),
     "retrieve": extend_schema(description="Просмотр экземпляра дилера."),
 }
 
+
+filter_options = [KeyStatus.CHECK, KeyStatus.DECLINED, KeyStatus.FOUND]
 
 key_schema = {
     "list": extend_schema(
@@ -23,7 +28,7 @@ key_schema = {
             ),
             OpenApiParameter(
                 name="status",
-                description="Фильтр по статусу; варианты: '-', '0', '1+'",
+                description=f"Фильтр по статусу: {filter_options}",
             ),
             OpenApiParameter(
                 name="page",
@@ -35,6 +40,37 @@ key_schema = {
 }
 
 
+key_export_schema = {
+    "get": extend_schema(
+        description="Получение списка уникальных ключей дилеров.",
+        parameters=[
+            OpenApiParameter(
+                name="new",
+                type=bool,
+                description=(
+                    "Фильтр по ключам, которых не было в стартовом csv"
+                ),
+            ),
+            OpenApiParameter(
+                name="since",
+                type=date,
+                description=(
+                    "Выводит ключи, записанные с указанной даты. "
+                    "Формат ДД.ММ.ГГГГ"
+                ),
+            ),
+            OpenApiParameter(
+                name="date",
+                type=date,
+                description=(
+                    "Выводит ключи, записанные в указанную дату. "
+                    "Формат ДД.ММ.ГГГГ"
+                ),
+            ),
+        ],
+    ),
+}
+
 matches_schema = {
     "post": extend_schema(responses=ser.MatchSerializer(many=True))
 }
@@ -42,6 +78,10 @@ matches_schema = {
 
 choose_match_schema = {
     "post": extend_schema(
+        description=(
+            "Выбор 1 предлагаемого соответствия Ключ - Продукт. "
+            "Остальные помечаются как 'Не подходит'."
+        ),
         request=ser.ChooseMatchSerializer(),
         responses=ser.MatchSerializer(many=True),
     )

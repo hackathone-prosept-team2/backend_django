@@ -4,8 +4,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from apps.products.crud import list_products
 
 from ..pagination import CommonPagePagination
-from . import schema
-from . import serializer as ser
+from . import schema, serializer as ser
 
 
 @extend_schema_view(**schema.product_schema)

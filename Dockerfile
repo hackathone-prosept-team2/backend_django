@@ -6,11 +6,11 @@ COPY poetry.lock pyproject.toml ./
 
 RUN pip3 install poetry && curl -sSL 'https://install.python-poetry.org' | python3 - 
 
-ENV PYTHONPATH="$PYTHONPATH:/app"
-
 RUN poetry config virtualenvs.create false \
   && poetry install --without dev --no-interaction --no-ansi
 
+RUN python -m nltk.downloader wordnet
+
 COPY . .
 
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0:8000" ]
+ENTRYPOINT ["sh", "entrypoint.sh"]

@@ -93,18 +93,9 @@ DATABASES = {
 # Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
-    # {
-    #     "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    # },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
-    # {
-    #     "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    # },
-    # {
-    #     "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    # },
 ]
 
 # Internationalization
@@ -162,7 +153,7 @@ DJOSER = {
     "HIDE_USERS": False,
     "PERMISSIONS": {
         "user_list": [
-            "rest_framework.permissions.AllowAny",
+            "rest_framework.permissions.IsAuthenticated",
         ],
         "user": [
             "rest_framework.permissions.IsAuthenticated",

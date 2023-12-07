@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from apps.dealers.models import Dealer, DealerKey, Match
 from apps.products.crud import product_exists
+from config.constants import MATCH_NUMBER, KeyStatus
 
 from ..products.serializer import ProductShortSerializer
 
@@ -29,7 +30,7 @@ class DealerReportSerializer(BaseDealerSerializer):
     keys_without_product = serializers.SerializerMethodField()
     confirmed_matches = serializers.IntegerField()
     to_be_checked = serializers.IntegerField()
-    no_matches = serializers.IntegerField()
+    no_matches = serializers.SerializerMethodField()
 
     class Meta(BaseDealerSerializer.Meta):
         fields = BaseDealerSerializer.Meta.fields + (
@@ -45,34 +46,55 @@ class DealerReportSerializer(BaseDealerSerializer):
     def get_keys_without_product(self, obj):
         return obj.total_keys - obj.keys_with_product
 
+    def get_no_matches(self, obj):
+        return obj.total_keys - obj.keys_with_product - obj.to_be_checked
 
-class KeySerializer(serializers.ModelSerializer):
-    """Сериализатор для полей Ключей/артикулов Дилера."""
 
-    dealer = DealerSerializer()
-    product = ProductShortSerializer()
-    name = serializers.CharField()
-    last_price = serializers.DecimalField(max_digits=7, decimal_places=2)
-    similarity = serializers.SerializerMethodField()
-    # status = serializers.IntegerField()
+class BaseKeySerializer(serializers.ModelSerializer):
+    """Базовый сериализатор для Ключей/артикулов Дилера."""
 
     class Meta:
         model = DealerKey
         fields = (
             "id",
             "key",
-            "name",
-            "last_price",
-            # "status",
-            "similarity",
             "dealer",
             "product",
         )
 
-    def get_similarity(self, obj):
-        if obj.status == 101:
-            return "-"
-        return obj.status
+
+class KeyExportSerializer(BaseKeySerializer):
+    """Сериализатор для экспорта Ключей/артикулов Дилера."""
+
+    chosen_at = serializers.DateField(source="edited_at")
+
+    class Meta(BaseKeySerializer.Meta):
+        fields = BaseKeySerializer.Meta.fields + ("chosen_at",)
+
+
+class KeySerializer(BaseKeySerializer):
+    """Сериализатор для полей просмотра Ключей/артикулов Дилера."""
+
+    dealer = DealerSerializer()
+    product = ProductShortSerializer()
+    name = serializers.CharField()
+    last_price = serializers.DecimalField(max_digits=7, decimal_places=2)
+    status = serializers.SerializerMethodField()
+
+    class Meta(BaseKeySerializer.Meta):
+        model = DealerKey
+        fields = BaseKeySerializer.Meta.fields + (
+            "name",
+            "last_price",
+            "status",
+        )
+
+    def get_status(self, obj):
+        if obj.product_id is not None:
+            return KeyStatus.FOUND
+        if obj.declined == MATCH_NUMBER:
+            return KeyStatus.DECLINED
+        return KeyStatus.CHECK
 
 
 class MatchSerializer(serializers.ModelSerializer):

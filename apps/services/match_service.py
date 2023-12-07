@@ -1,8 +1,11 @@
-import pandas as pd
 import re
+
+import pandas as pd
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import pairwise_distances
+
+from config.constants import MATCH_NUMBER
 
 
 class RecommendationService:
@@ -94,7 +97,7 @@ class RecommendationService:
         return df
 
     def get_recommendations(
-        self, dealer_name: str, recommendations_number: int = 10
+        self, dealer_name: str, recommendations_number: int = MATCH_NUMBER
     ) -> list[list[float, float]]:
         """Получение рекомендаций."""
         # получаем ключи по названию
