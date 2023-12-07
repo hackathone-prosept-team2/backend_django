@@ -1,4 +1,4 @@
-# YANDEX & PROSEPT HACKATHON: Сервис сопоставления товаров Просепт и наименований дилеров. Way2IT (Команда 2).
+# YANDEX & PROSEPT HACKATHON: Сервис сопоставления товаров Просепт и наименований дилеров. Команда 2.
 http://81.31.246.5/ <br>
 данные для пробного входа на сайт и в админ-панель
 ```
@@ -68,6 +68,9 @@ Authorization: Token <access-token>
 | GET    |/api/v1/products/                             | Список продуктов компании |
 | GET    |/api/v1/products/{id}/                        | Просмотр информации о продукте компании с id {id} |
 
+### База данных и связи сущностей приложения
+![image](https://github.com/hackathone-prosept-team2/backend_django/blob/main/presentation/database.png)
+
 
 ## Запуск проекта
 ### Переменные окружения
@@ -83,35 +86,22 @@ git clone git@github.com:hackathone-prosept-team2/backend_django.git
 cd backend_django/deploy
 docker compose up -d
 ```
-Добавить миграции и собрать статику
+Сайт доступен по адресу http://127.0.0.1/<br>
+В базе данных уже есть Суперпользователь с указанными с .env данными (или данными по умолчанию выше) и загружены файлы:
 ```
-docker exec -it career_back python manage.py migrate
-docker exec -it career_back python manage.py collectstatic --noinput
-```
-Сайт доступен по адресу http://127.0.0.1/
-
-### Наполнение проекта фикстурами
-Фикстуры всех атрибутов + 50 студентов + 1 админ (admin@admin.admin / password-123) для проверки работы сайта
-```
-docker exec -it career_back python manage.py loaddata static/fixtures/data.json
-```
-
-Добавить только модели атрибутов (статичные модели для фильтров и атрибутов соискателей)
-```
-docker exec -it career_back python manage.py add_attributes
+marketing_dealer
+marketing_product
+marketing_productdealerkey 
 ```
 
 ## Команда
-### Project Manger
-Марина Нюнякина
 ### Backend:
 [Руслан Атаров](https://github.com/ratarov) <br>
-[Филипп Пыхонин](https://github.com/caveinfix)<br>
-### Design:
-[Решетняк Анастасия](https://www.behance.net/015d9f71)<br>
-[Евгения Постникова](https://www.behance.net/eugi_eugenia)<br>
-Вера Карулина
+### Data-Science:
+[Кирилл Шулев](https://github.com/Kexxshas)<br>
+Павел Барков
 ### Frontend:
-[Влад Мещеринов](https://github.com/beardy-raccoon) <br>
-[Артем Никифоров](https://github.com/Art-Frich) <br>
-[Любимов Ярослав](https://github.com/Yanseses)
+[Максим Таланов](https://github.com/maxtalanov) <br>
+[Линда Суховенко](https://github.com/SuhLinda)
+### Project Manger
+Виктория Мудрова
