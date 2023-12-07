@@ -26,7 +26,7 @@ https://github.com/hackathone-prosept-team2/data-science
 ![image](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 ![image](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 ![image](https://img.shields.io/badge/Poetry-053766?style=for-the-badge&logo=Sailfish%20OS&logoColor=white)
-![image](https://img.shields.io/badge/Pytest-86D46B?style=for-the-badge&logo=redux%20saga&logoColor=999999)
+![image](https://img.shields.io/badge/Pytest-86D46B?style=for-the-badge&logo=redux%20saga&logoColor=999999)<br>
 DS-сервис рекомендаций (является частью бэкенд-приложения):<br>
 ![image](https://img.shields.io/badge/Pandas-2C2D72?style=for-the-badge&logo=pandas&logoColor=white)
 ![image](https://img.shields.io/badge/NLTK-FF3621?style=for-the-badge)
