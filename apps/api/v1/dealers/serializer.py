@@ -80,6 +80,7 @@ class KeySerializer(BaseKeySerializer):
     name = serializers.CharField()
     last_price = serializers.DecimalField(max_digits=7, decimal_places=2)
     status = serializers.SerializerMethodField()
+    url = serializers.CharField()
 
     class Meta(BaseKeySerializer.Meta):
         model = DealerKey
@@ -87,6 +88,7 @@ class KeySerializer(BaseKeySerializer):
             "name",
             "last_price",
             "status",
+            "url",
         )
 
     def get_status(self, obj):

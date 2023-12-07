@@ -5,7 +5,7 @@ http://81.31.246.5/ <br>
 email: admin@admin.admin
 password: Password-123
 ```
-## Архивы и фото
+## Архивы и фото приложения
 Вставить сюда фотки с сайта
 
 ##  FRONTEND: 
@@ -19,12 +19,19 @@ https://github.com/hackathone-prosept-team2/data-science
 ![image](https://img.shields.io/badge/Python%203.11-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
 ![image](https://img.shields.io/badge/Django%204.2-092E20?style=for-the-badge&logo=django&logoColor=green)
 ![image](https://img.shields.io/badge/django%20rest%203.14-ff1709?style=for-the-badge&logo=django&logoColor=white)
+![image](https://img.shields.io/badge/DRF_Spectacular-aa1000?style=for-the-badge&logo=django&logoColor=white)
 ![image](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![image](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 ![image](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
 ![image](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 ![image](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
+![image](https://img.shields.io/badge/Poetry-053766?style=for-the-badge&logo=Sailfish%20OS&logoColor=white)
 ![image](https://img.shields.io/badge/Pytest-86D46B?style=for-the-badge&logo=redux%20saga&logoColor=999999)
++ DS-сервис рекомендаций:
+![image](https://img.shields.io/badge/Pandas-2C2D72?style=for-the-badge&logo=pandas&logoColor=white)
+![image](https://img.shields.io/badge/NLTK-FF3621?style=for-the-badge)
+![image](https://img.shields.io/badge/SKlearn-7A1FA2?style=for-the-badge)
+
 
 ### Доступ в админ-панель:
 http://81.31.246.5/admin 
