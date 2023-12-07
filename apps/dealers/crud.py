@@ -55,8 +55,30 @@ def list_keys() -> QuerySet[DealerKey]:
                     "price"
                 )[:1]
             ),
+            url=Subquery(
+                DealerPrice.objects.filter(key_id=OuterRef("pk")).values(
+                    "product_url"
+                )[:1]
+            ),
             declined=Count(
                 "matches", filter=Q(matches__status=Match.MatchStatus.NO)
+            ),
+        )
+        # фильтр позволяет выгружать только ключи, которые есть в списке цен
+        .filter(name__isnull=False)
+    )
+
+
+def list_keys_in_admin() -> QuerySet[DealerKey]:
+    """Получение списка ключей/артикулов дилеров для админ-панели."""
+    return (
+        DealerKey.objects.select_related("dealer", "product")
+        .prefetch_related("matches")
+        .annotate(
+            name=Subquery(
+                DealerPrice.objects.filter(key_id=OuterRef("pk")).values(
+                    "name"
+                )[:1]
             ),
         )
         # фильтр позволяет выгружать только ключи, которые есть в списке цен
