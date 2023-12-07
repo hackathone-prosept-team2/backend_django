@@ -78,6 +78,13 @@ def list_matches(key_pk: int, add_products: bool = True) -> QuerySet[Match]:
     return dealer_key.matches.all()
 
 
+def list_keys_with_products() -> QuerySet[DealerKey]:
+    """Получение списка ключей с подобранными продуктами."""
+    return DealerKey.objects.filter(product_id__isnull=False).select_related(
+        "dealer", "product"
+    )
+
+
 def change_status_to_declined(matches: QuerySet[Match]) -> None:
     """Изменение статуса у всех предложений на "Не подходит"."""
     for product_match in matches:

@@ -8,13 +8,14 @@ from apps.dealers.crud import (
     list_dealers,
     list_dealers_report_data,
     list_keys,
+    list_keys_with_products,
     list_matches,
 )
 from apps.dealers.services import choose_match, decline_matches
 
 from ..pagination import CommonPagePagination
 from . import schema, serializer as ser
-from .filters import DealerKeyFilter
+from .filters import DealerKeyExportFilter, DealerKeyFilter
 
 
 @extend_schema_view(**schema.dealer_schema)
@@ -40,6 +41,15 @@ class DealerKeyViewset(ReadOnlyModelViewSet):
     serializer_class = ser.KeySerializer
     pagination_class = CommonPagePagination
     filterset_class = DealerKeyFilter
+
+
+@extend_schema_view(**schema.key_export_schema)
+class ExportKeysView(ListAPIView):
+    """Выгрузка результатов сопоставления ключей и продуктов."""
+
+    queryset = list_keys_with_products()
+    serializer_class = ser.KeyExportSerializer
+    filterset_class = DealerKeyExportFilter
 
 
 @extend_schema_view(**schema.matches_schema)

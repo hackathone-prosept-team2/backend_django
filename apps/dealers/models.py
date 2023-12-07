@@ -34,6 +34,10 @@ class DealerKey(models.Model):
     is_provided = models.BooleanField(
         verbose_name="Есть в исходном csv", default=False
     )
+    created_at = models.DateField(
+        verbose_name="Дата создания", auto_now_add=True
+    )
+    edited_at = models.DateField(verbose_name="Дата подбора", auto_now=True)
 
     class Meta:
         ordering = ("id",)
