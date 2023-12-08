@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Просмотр данных ключа-артикула!{% endblock %}
+{% block content %}
+
+<h1>Информация по подобранным продуктам и ценам</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Дилер</th>
+            <th scope="col">Артикул</th>
+            <th scope="col">Наименование</th>
+            <th scope="col">Статус подбора</th>
+            <th scope="col">Цена</th>
+            <th scope="col">Ссылка на сайт</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ object.dealer.name }}</td>
+            <td>{{ object.key }}</td>
+            <td>{{ object.name }}</td>
+            <td>
+                {% if object.product_id %}Подобран
+                {% elif object.declined == 10 %}Не подходит
+                {% else %}На проверку
+                {% endif %}
+            </td>
+            <td>{{ object.last_price }}</td>
+            <td><a href="{{ object.url }}" target="_blank">Перейти</a></td>
+        </tr>
+
+    </tbody>
+</table>
+<br>
+<br>
+<h4>Список подходящих продуктов:</h4>
+{% if object.matches.count > 1 %}
+<a href="{% url 'dealers:decline_all' object.id %}" class=" btn btn-sm btn-danger">
+    Ничего не подходит
+</a>
+{% endif %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Артикул</th>
+            <th scope="col">Наименование</th>
+            <th scope="col">Себестоимость</th>
+            <th scope="col">Рек.цена</th>
+            <th scope="col">Статус подбора</th>
+            <th scope="col">Показатель схожести</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for prod_match in object.matches.all %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ prod_match.product.article }}</td>
+            <td>{{ prod_match.product.name }}</td>
+            <td>{{ prod_match.product.cost }}</td>
+            <td>{{ prod_match.product.recommended_price }}</td>
+            <td>{{ prod_match.get_status_display }}</td>
+            <td>{{ prod_match.similarity }}%</td>
+            <td>
+                <a href="{% url 'dealers:choose_product' pk=object.id prod_id=prod_match.product_id %}"
+                    class="btn btn-sm btn-danger">
+                    Выбрать
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td scope="col"></td>
+            <td scope="col"></td>
+            <td scope="col">Нет подобранных рекомендаций</td>
+            <td scope="col"></td>
+            <td scope="col"></td>
+            <td scope="col"></td>
+            <td scope="col"></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+<h4>История цен:</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Дата</th>
+            <th scope="col">Наименование</th>
+            <th scope="col">Цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for price in object.prices.all %}
+        <tr>
+            <td>{{ price.date }}</td>
+            <td>{{ price.name }}</td>
+            <td>{{ price.price }}</td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

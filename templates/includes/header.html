@@ -1,0 +1,28 @@
+{% load static %}
+<header>
+  <nav class="navbar navbar-light" style="background-color: lightskyblue">
+    <div class="container">
+
+      <a class="navbar-brand" href="{% url 'dealers:index' %}">
+        <span style="color:green">Просепт
+      </a>
+
+      {% with request.resolver_match.view_name as view_name %}
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link {% if view_name == 'dealers:report' %} active {% endif %} link-light"
+            href="{% url 'dealers:report' %}">
+            Отчет
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if view_name == 'dealers:index' %} active {% endif %} link-light"
+            href="{% url 'dealers:index' %}">
+            Список артикулов
+          </a>
+        </li>
+      </ul>
+      {% endwith %}
+    </div>
+  </nav>
+</header>
