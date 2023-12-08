@@ -4,6 +4,7 @@ from django.db.transaction import atomic
 from .crud import (
     change_status_to_declined,
     choose_one_decline_others,
+    delete_connection_with_product,
     list_matches,
     set_product_for_dealer_key,
 )
@@ -15,6 +16,7 @@ def decline_matches(key_pk: int) -> QuerySet[Match]:
     """Сменить всем предложениям статус на "Не подходит"."""
     matches = list_matches(key_pk=key_pk)
     change_status_to_declined(matches=matches)
+    delete_connection_with_product(key_id=key_pk)
     return matches
 
 

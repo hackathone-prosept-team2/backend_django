@@ -1,12 +1,13 @@
 # YANDEX & PROSEPT HACKATHON: Сервис сопоставления товаров Просепт и наименований дилеров. Команда 2.
 http://81.31.246.5/ <br>
+http://81.31.246.5/backup/ - временный вход <br>
 данные для пробного входа на сайт и в админ-панель
 ```
 email: admin@admin.admin
 password: Password-123
 ```
 ## Архивы и фото приложения
-Вставить сюда фотки с сайта
+[Фото основных страниц](https://github.com/hackathone-prosept-team2/backend_django/tree/main/presentation)
 
 ##  FRONTEND: 
 https://github.com/hackathone-prosept-team2/frontend

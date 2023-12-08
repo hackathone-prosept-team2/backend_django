@@ -107,6 +107,39 @@ def list_keys_with_products() -> QuerySet[DealerKey]:
     )
 
 
+def key_details() -> DealerKey:
+    return (
+        DealerKey.objects.annotate(
+            name=Subquery(
+                DealerPrice.objects.filter(key_id=OuterRef("pk")).values(
+                    "name"
+                )[:1]
+            ),
+            last_price=Subquery(
+                DealerPrice.objects.filter(key_id=OuterRef("pk")).values(
+                    "price"
+                )[:1]
+            ),
+            url=Subquery(
+                DealerPrice.objects.filter(key_id=OuterRef("pk")).values(
+                    "product_url"
+                )[:1]
+            ),
+            declined=Count(
+                "matches", filter=Q(matches__status=Match.MatchStatus.NO)
+            ),
+        )
+        .select_related("dealer", "product")
+        .prefetch_related(
+            "prices",
+            Prefetch(
+                "matches",
+                queryset=Match.objects.all().select_related("product"),
+            ),
+        )
+    )
+
+
 def change_status_to_declined(matches: QuerySet[Match]) -> None:
     """Изменение статуса у всех предложений на "Не подходит"."""
     for product_match in matches:
@@ -173,4 +206,12 @@ def matches_bulk_create(field_sets: list[dict]) -> None:
     for field_set in field_sets:
         fields.append(Match(**field_set))
     Match.objects.bulk_create(fields)
+    return None
+
+
+def delete_connection_with_product(key_id: int) -> None:
+    """Удаление связи между ключем и продуктом."""
+    key = DealerKey.objects.get(id=key_id)
+    key.product_id = None
+    key.save()
     return None

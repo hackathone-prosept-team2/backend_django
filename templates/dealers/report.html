@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Отчет по дилерам!{% endblock %}
+{% block content %}
+{% load user_filters %}
+
+<h1>Отчет по дилерам:</h1>
+<hr>
+<div class="text-center">
+    <table class="table table-striped">
+        <thead>
+            <tr class="align-middle">
+                <th scope="col" rowspan="2">#</th>
+                <th scope="col" rowspan="2">Дилер</th>
+                <th scope="col" rowspan="2">Всего загружено цен</th>
+                <th scope="col" colspan="3">Статистика по ключам</th>
+                <th scope="col" colspan="3">Рекомендации</th>
+            </tr>
+            <tr class="align-middle">
+                <th scope="col">Всего уникальных ключей</th>
+                <th scope="col">Ключей с подобранным продуктом</th>
+                <th scope="col">Ключей без продукта</th>
+                <th scope="col">Подтверждено рекомендаций</th>
+                <th scope="col">Осталось проверить</th>
+                <th scope="col">Не подошло рекомендаций</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dealer in object_list %}
+            <tr class="align-middle">
+                <th>{{ forloop.counter }}</td>
+                <th class="text-start">{{ dealer.name }}</td>
+                <td>{{ dealer.total_prices }}</td>
+                <td>{{ dealer.total_keys }}</td>
+                <td>{{ dealer.keys_with_product }}</td>
+                <td>{{ dealer.total_keys|substract:dealer.keys_with_product }}</td>
+                <td>{{ dealer.confirmed_matches }}</td>
+                <td>{{ dealer.to_be_checked }}</td>
+                <td>{{ dealer.total_keys|substract:dealer.keys_with_product|substract:dealer.to_be_checked }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 # Настройки общей пагинации
-COMMON_PAGE = 50
+COMMON_PAGE = 30
 # Настройки вложенной в объект пагинации (история цен)
 NESTED_PAGE = 10
 # Кол-во выводимых предложений аналогов

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Главная страница Сервиса!{% endblock %}
+{% block content %}
+
+<h1>Список загруженных цен артикулов дилеров:</h1>
+<hr>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Дилер</th>
+            <th scope="col">Артикул</th>
+            <th scope="col">Наименование</th>
+            <th scope="col">Цена</th>
+            <th scope="col">Статус подбора</th>
+            <th scope="col">Подобранный продукт</th>
+            <th scope="col">Артикул</th>
+            <th scope="col">Себестоимость</th>
+            <th scope="col">Рек.цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for key in page_obj %}
+        <tr>
+            <td>{{ key.dealer.name }}</td>
+            <td>{{ key.key }}</td>
+            <td><a href="{% url 'dealers:details' key.id %}">{{ key.name }}</a></td>
+            <td>{{ key.last_price }}</td>
+            <td>
+                {% if key.product_id %}Подобран{% elif key.declined == 10 %}Не подходит{% else %}На проверку{% endif %}
+            </td>
+            <td>{% if key.product_id %}{{ key.product.name_1c }}{% else %}-{% endif %}</td>
+            <td>{% if key.product_id %}{{ key.product.article }}{% else %}-{% endif %}</td>
+            <td>{% if key.product_id %}{{ key.product.cost }}{% else %}-{% endif %}</td>
+            <td>{% if key.product_id %}{{ key.product.recommended_price }}{% else %}-{% endif %}</td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
+
+{% include 'includes/pagination.html' %}
+
+{% endblock %}
