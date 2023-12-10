@@ -1,9 +1,35 @@
 {% extends "base.html" %}
 {% block title %}Главная страница Сервиса!{% endblock %}
 {% block content %}
+{% load user_filters %}
 
 <h1>Список загруженных цен артикулов дилеров:</h1>
 <hr>
+
+<form method="get">
+    <div class="form-group row my-3">
+        <div class="col-4 mb-2">
+            <label class="form-label">Наименование или артикул: </label>
+            {{ form.text|addclass:'form-control' }}
+        </div>
+        <div class="col-2 mb-2">
+            <label class="form-label">Статус:</label>
+            {{ form.status|addclass:'form-control' }}
+        </div>
+        <div class="col-2 mb-2">
+            <label class="form-label">Дилер:</label>
+            {{ form.dealer|addclass:'form-control' }}
+        </div>
+        <div class="col-2 align-self-end mb-2">
+            <div class="justify-content-end">
+                <button type="submit" class="btn btn-primary">
+                    Найти
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -22,7 +48,7 @@
         {% for key in page_obj %}
         <tr>
             <td>{{ key.dealer.name }}</td>
-            <td>{{ key.key }}</td>
+            <td>{{ key.key|truncatechars:20 }}</td>
             <td><a href="{% url 'dealers:details' key.id %}">{{ key.name }}</a></td>
             <td>{{ key.last_price }}</td>
             <td>

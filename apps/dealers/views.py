@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.http import (
     HttpRequest,
     HttpResponsePermanentRedirect,
@@ -9,6 +11,8 @@ from django.views.generic import DetailView, ListView
 from config.constants import COMMON_PAGE
 
 from .crud import key_details, list_dealers_report_data, list_keys
+from .filters import filter_keys
+from .forms import FilterForm
 from .models import Dealer, DealerKey
 from .services import choose_match, decline_matches
 
@@ -19,7 +23,15 @@ class KeysView(ListView):
     model = DealerKey
     template_name = "dealers/index.html"
     paginate_by = COMMON_PAGE
-    queryset = list_keys()
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        form = FilterForm(data=self.request.GET or None)
+        context["form"] = form
+        return context
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return filter_keys(qs=list_keys(), request=self.request)
 
 
 class KeysDetailView(DetailView):
