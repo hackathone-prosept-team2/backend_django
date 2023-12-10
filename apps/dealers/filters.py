@@ -15,7 +15,7 @@ def filter_keys(
     dealer = request.GET.get("dealer")
 
     if text:
-        qs = qs.filter(Q(name__icontains=text) | Q(article__icontains=text))
+        qs = qs.filter(Q(name__icontains=text) | Q(key__icontains=text))
     if dealer:
         qs = qs.filter(dealer=dealer)
     if status:

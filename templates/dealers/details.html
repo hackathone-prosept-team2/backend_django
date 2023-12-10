@@ -20,7 +20,7 @@
             <td>{{ object.key|truncatechars:20 }}</td>
             <td>{{ object.name }}</td>
             <td>
-                {% if object.product_id %}Подобран
+                {% if object.product_id %}Подтверждено
                 {% elif object.declined == 10 %}Не подходит
                 {% else %}На проверку
                 {% endif %}
